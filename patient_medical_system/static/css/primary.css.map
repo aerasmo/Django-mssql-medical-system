@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAQA,AAGQ,cAHM,CACV,IAAI,CAEA,cAAc,CAAC;EACX,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,OAAO;CAAG",
+    "sources": [
+        "../sass/primary.sass"
+    ],
+    "names": [],
+    "file": "primary.css"
+}

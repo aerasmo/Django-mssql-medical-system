@@ -1,0 +1,108 @@
+{% extends "base.jinja" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block navbar %} {% include "patient/nav.jinja" %} {% endblock%}
+{% block content %}
+
+{# {{user.username}} #}
+{# {{user.password}} #}
+{# <h1>{{appointment.id}}</h1> #}
+
+<h2 class="ui header"> Approved Appointments 
+</h2>
+<span class="ui right floated"> Please go to the hospital to get admitted </span>
+<h3 class="sub header"> </h3>
+<div class="ui grid">
+{% if approved %}
+    {% for appointment in approved %}
+    <div class="four wide column">
+        <div class="ui card">
+        <div class="content">
+            <div class="header">
+                <h3> 
+                    {{appointment.appointment_date}}
+                    <span class="ui right floated">
+                    {{appointment.appointment_time}}   
+                    </span>
+                </h3>
+
+            </div>
+
+        </div>
+        <div class="content">
+            <h4 class="ui sub header">{{appointment.appointment_type}}</h4>
+            <div class="ui small feed">
+
+
+            <div class="event">
+                <div class="content">
+                <div class="summary">
+                    Status <a >{{appointment.status}} </a>
+                </div>
+                </div>
+            </div> 
+            </div>
+        </div>
+        <div class="extra content">
+            <form action="/cancel_appointment/{{appointment.id}}" method="POST">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <button class="ui tiny button"type='submit'> CANCEL</button>
+            </form>
+        </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+</div>
+<div class="ui divider"></div>
+<h2 class="header"> Pending Appointments </h2>
+<span> Wait to get approved by the hospital staff </span>
+<h3 class="sub header"></h3>
+<div class="ui grid">
+{% if pending %}
+    {% for appointment in pending %}
+    <div class="four wide column">
+        <div class="ui card">
+        <div class="content">
+            <div class="header">
+                <h3> 
+                    {{appointment.appointment_date}}
+                    <span class="ui right floated">
+                    {{appointment.appointment_time}}   
+                    </span>
+                </h3>
+
+            </div>
+
+        </div>
+        <div class="content">
+            <h4 class="ui sub header">{{appointment.appointment_type}}</h4>
+            <div class="ui small feed">
+
+
+            <div class="event">
+                <div class="content">
+                <div class="summary">
+                    Status <a >{{appointment.status}} </a>
+                </div>
+                </div>
+            </div> 
+            </div>
+        </div>
+        <div class="extra content">
+            <form action="/cancel_appointment/{{appointment.id}}" method="POST">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <button class="ui tiny button"type='submit'> CANCEL</button>
+            </form>
+        </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+</div>
+
+
+
+
+{% endblock %}

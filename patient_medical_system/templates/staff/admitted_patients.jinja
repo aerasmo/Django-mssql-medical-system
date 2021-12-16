@@ -1,0 +1,48 @@
+{% extends "base.jinja" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block navbar %} {% include "staff/nav.jinja" %} {% endblock%}
+{% block content %}
+
+<h1 class="ui header"> Admitted Patients </h1>
+<table class="ui celled striped table">
+    <thead>
+        <tr>
+            <th> Admit Date </th>
+            <th> Patient Name</th>
+            <th> Email Address</th>
+            <th> Contact No.</th>
+            <th> Age</th>
+            <th> Sex</th>
+            <th> Vision Level</th>
+            <th> Eye Condition </th>
+            <th> ACTION/S</th>
+        </tr>
+    </thead>
+
+{% for discharge in discharges %}
+    <tbody>
+    <tr>
+        <td> {{discharge.admit_date}}</td>
+        <td> {{discharge.patient.user.first_name}} {{discharge.patient.user.last_name}}</td>
+        <td> {{discharge.patient.user.email}}</td>
+        <td> {{discharge.patient.phone_number}}</td>
+        <td> {{discharge.patient.age}}</td>
+        <td> {{discharge.patient.sex}}</td>
+        <td> {{discharge.patient.vision_classification}}</td>
+        <td> {{discharge.patient.eye_condition}}</td>
+        <td class="action-column">
+            <form action="/discharge/{{discharge.id}}"method="POST">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <button class="ui teal tiny button action-button" type="submit"> Discharge </button>
+            </form>
+        </td>
+
+    </tr>
+    </tbody>
+
+{% endfor %}
+</table>
+
+{% endblock %}

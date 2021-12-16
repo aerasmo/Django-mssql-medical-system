@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>POGH</title>
+  <style>
+    #invoice-header-left{
+        text-align: left;
+    }
+
+
+    #invoice-header-right{
+        text-align: right;
+    }
+</style>
+</head>
+
+<body>
+    <br>
+
+    <div id="logo">
+
+    </div>
+
+    <div id="invoice-header-left">
+        <p>
+        Philippine Optimum General Hospital <br>
+        Address <br>
+        City, State, Zip,<br>
+        Phone #, Web address <br>
+        </p>
+    </div>
+
+    <div id="invoice-header-right" >
+        <b>DATE:</b> November 25, 2021
+        <br><b>INVOICE #:</b> 69-420
+    </div>
+    
+    <div>
+
+        <img src="{% static 'res/images/henry.png' %}" alt="">
+    </div>
+    <hr>
+
+    </body>
+</html>
+
+
+

@@ -1,0 +1,96 @@
+{% extends "base.jinja" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} STAFF - SIGNUP {% endblock %}
+{% block content %}
+
+<div class="forms ui grid two column center aligned middle aligned" id="signup">
+    <div class="column">
+        <h2 class="ui teal image header">
+            {# <img src="assets/images/logo.png" class="image"> #}
+            <div class="content">
+                Signup for an account
+            </div>
+        </h2>
+        <form class="ui small form error" method="POST">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+        <div class="ui segment inputs">
+            <div class="field">
+                <label for=""> Name</label>
+                <div class="two fields ">
+                    <div class="field">
+                        {% render_field user_form.first_name class="form-control" placeholder="First Name" %}
+                    </div>
+
+                    <div class="field">
+                        {% render_field user_form.last_name class="form-control" placeholder="Last Name" %}
+                    </div>
+                </div>
+            </div>
+
+ 
+
+            <div class="ui divider"></div>
+            <div class="two fields">
+                <div class="field">
+                {# <div class="ui left icon input"> #}
+                    {# <i class="user icon"></i> #}
+                    <label for=""> Username</label>
+                    {% render_field user_form.username class="form-control" placeholder="Username" %}
+                {# </div> #}
+                </div>
+
+                <div class="field">
+                    <label for=""> Email Address</label>
+                    {% render_field user_form.email class="form-control" placeholder="Email Address" %}
+                </div>
+            
+            </div>
+
+            
+            <div class="field">
+                <label for=""> Password</label>
+                {# <input type="password" name="password" placeholder="Password"> #}
+                {% render_field user_form.password class="form-control" placeholder="Password" %}
+            </div>
+
+            <div class="field">
+                <label for=""> Re-enter Password</label>
+                {# <input type="password" name="password" placeholder="Password"> #}
+                {% render_field user_form.re_password class="form-control" placeholder="Re-Enter Password" %}
+            </div>
+
+
+            {% if user_form.non_field_errors %}
+                <div class="ui error message">
+                    <div class="header">{{user_form.non_field_errors.as_text}}</div>
+                    <div class="header">{{user_form.field_errors.as_text}}</div>
+                </div>
+            {% else %}
+            {% endif %}
+
+
+
+            <button type="submit" class="ui fluid large teal submit button" id="signup--submit">
+                Sign Up
+            </button>
+
+            
+            <div class="ui message">
+                Already have an account? 
+                <a href="{% url 'staff login' %}">Login</a>
+            </div>
+        </div>
+
+
+        </form>
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

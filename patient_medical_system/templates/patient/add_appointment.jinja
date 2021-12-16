@@ -1,0 +1,65 @@
+{% extends "base.jinja" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} ADD APPOINTMENT{% endblock %}
+
+{% block navbar %} {% include "patient/nav.jinja" %} {% endblock%}
+
+{% block content %}
+<div class="ui grid two column center aligned forms" id="add-appointment">
+    <div class="column">
+        <h2 class="ui primary image header">
+        {# <img src="assets/images/logo.png" class="image"> #}
+        <div class="content">
+            Schedule an Appointment
+        </div>
+        </h2>
+        <form class="ui large form" method="POST">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <div class="ui stacked segment">
+            {# <div class="field"> #}
+            {# <div class="ui left icon"> #}
+                {# <i class="user icon"></i> #}
+                {# {% render_field form.appointment_date class="form-control" placeholder="Appointment Date" %} #}
+
+            {# </div> #}
+            {# </div> #}
+            <div class="ui calendar field" >
+                <label for=""> Schedule </label>
+                {# <h3>Date only</h3> #}
+                <div class="ui input left icon">
+                    <i class="calendar icon"></i>
+                    <input type="date" name="appointment_date" placeholder="Date">
+                </div>
+            </div>
+                    
+            <div class="ui calendar field">
+                {# <h3>Time only</h3> #}
+                <div class="ui input left icon">
+                    <i class="time icon"></i>
+                    <input type="time" name="appointment_time" placeholder="Time">
+                </div>
+            </div>
+
+            <div class="ui divider"></div>
+
+            <div class="field">
+                <label for=""> Appointment Type </label>
+                <div class="ui input">
+                    {# <input type="password" name="password" placeholder="Password"> #}
+                    {% render_field form.appointment_type class="form-control" placeholder="Appointment Type" %}
+                </div>
+            </div>
+
+            <button type="submit" class="ui fluid large submit button" id="appointment--submit">
+                Submit
+            </button>
+        </div>
+        <div class="ui error message"></div>
+
+        </form>
+    </div>
+
+</div>
+{% endblock %}

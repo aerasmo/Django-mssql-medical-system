@@ -1,0 +1,46 @@
+{% extends "base.jinja" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block navbar %} {% include "staff/nav.jinja" %} {% endblock%}
+{% block content %}
+
+<h1 class="ui header"> Patients </h1>
+<table class="ui celled striped table">
+    <thead>
+        <tr>
+            <th> Patient Name</th>
+            <th> Email Address</th>
+            <th> Contact No.</th>
+            <th> Age</th>
+            <th> Sex</th>
+            <th> Vision Level</th>
+            <th> Eye Condition </th>
+            <th> ACTION/S</th>
+        </tr>
+    </thead>
+
+{% for patient in patients %}
+    <tbody>
+    <tr>
+        <td> {{patient.user.first_name}} {{patient.user.last_name}}</td>
+        <td> {{user.email}}</td>
+        <td> +{{patient.phone_number}}</td>
+        <td> {{patient.age}}</td>
+        <td> {{patient.sex}}</td>
+        <td> {{patient.vision_classification}}</td>
+        <td> {{patient.eye_condition}}</td>
+        <td class="action-column">
+            <form action="/patient/{{patient.user.id}}"method="POST">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <button class="ui teal tiny button action-button" type="submit"> View </button>
+            </form>
+        </td>
+
+    </tr>
+    </tbody>
+
+{% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% load static %}
+
+
+<div class="ui menu">
+  <img src="#" alt="" class="logo">
+  <a href="{% url 'dashboard' %}" class="item"> 
+    APPOINTMENTS
+  </a>
+  <a href="{% url 'patients' %}" class="item"> 
+    PATIENTS
+  </a>
+  <a href="{% url 'admitted' %}" class="item"> 
+    ADMITTED PATIENTS
+  </a>
+  <div class="right menu"> 
+    <a href="{% url 'logout'%}" class="item"> 
+      LOGOUT
+    </a>
+
+  </div>
+</div>

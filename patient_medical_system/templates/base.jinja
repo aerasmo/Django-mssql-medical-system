@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/semantic.css' %}"> 
+	<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/primary.css' %}">
+	{% block stylesheets %}
+	{% endblock stylesheets %}
+
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	
+	<title> 
+		{% block title %} Philippine Optimum General Hospital {% endblock title %}
+	</title>
+</head>
+
+<body>
+	<div class="ui container">
+	{# navbar #}
+	{% block navbar %} 
+		{% include "nav.jinja" %} 
+	{% endblock navbar %}
+
+	{# content #}
+	{% block content %}{% endblock content %}
+
+	{# footer #}
+	{% block footer %}
+		{# <!--  include "/footer.html"  --> #}
+	{% endblock footer %}
+	
+	{# script #}
+	<script type="text/javascript" src="/static/js/main.js?{% now 'U' %}"> </script>
+	{# <script type="text/javascript" src="/static/js/semantic.js?{% now 'U' %}"> </script> #}
+
+	</div>
+</body>
+</html>

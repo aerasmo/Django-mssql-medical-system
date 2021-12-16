@@ -1,0 +1,16 @@
+.forms .inputs {
+  border-radius: 25px;
+}
+
+.forms label {
+  text-align: left;
+}
+
+#add-appointment, #login {
+  margin-top: 10rem;
+}
+
+#signup {
+  margin-top: 6rem;
+}
+/*# sourceMappingURL=forms.css.map */

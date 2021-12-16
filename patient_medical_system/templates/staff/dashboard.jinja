@@ -1,0 +1,56 @@
+{% extends "base.jinja" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block navbar %} {% include "staff/nav.jinja" %} {% endblock%}
+{% block content %}
+
+<h1 class="ui header"> Appointments </h1>
+<table class="ui celled striped table">
+    <thead>
+        <tr>
+            <th> Appointment User</th>
+            <th> Date Added</th>
+            <th> Appointment Type</th>
+            <th> Appointment Date</th>
+            <th> Appointment Status</th>
+            <th> ACTION/S</th>
+        </tr>
+    </thead>
+
+{% for appointment in appointments %}
+    <tbody>
+    <tr>
+        <td> {{appointment.patient.user.username}}</td>
+        <td> {{appointment.created_at}}</td>
+        <td> {{appointment.appointment_type}}</td>
+        <td> {{appointment.appointment_date}} {{appointment.appointment_time}}</td>
+        <td> {{appointment.status}}</td>
+        <td class="action-column">
+        {% if appointment.status == "Pending" %}
+            <form action="/approve_appointment/{{appointment.id}}"method="POST">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <button class="ui teal tiny button action-button" type="submit"> Approve</button>
+            </form>
+            <form action="/cancel_appointment/{{appointment.id}}"method="POST">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <button class="ui tiny button action-button" type="submit"> Reject</button>
+            </form>
+        {% else %}
+            {% if appointment.status == "Approved" %}
+                <form action="/admit_appointment/{{appointment.id}}"method="POST">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                    <button class="ui teal tiny button action-button" type="submit"> Admit </button>
+                </form>
+            {% else %}
+            {% endif %}
+        {% endif %}
+        </td>
+
+    </tr>
+    </tbody>
+
+{% endfor %}
+</table>
+
+{% endblock %}

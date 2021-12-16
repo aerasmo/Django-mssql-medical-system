@@ -1,0 +1,55 @@
+{% extends "base.jinja" %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block title %} STAFF - LOGIN {% endblock %}
+{# {% block navbar %}{% endblock %} set empty nav #}
+
+{% block content %}
+
+<div class="forms ui grid center aligned middle aligned" id="login">
+    <div class="five wide column">
+        <h2 class="ui teal image header">
+        {# <img src="assets/images/logo.png" class="image"> #}
+        <div class="content">
+            Log-in to your account
+        </div>
+        </h2>
+        <form class="ui large form" method="POST">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <div class="ui stacked segment">
+            <div class="field">
+            <div class="ui left icon input">
+                <i class="user icon"></i>
+                {# <input type="text" name="email" placeholder="E-mail address"> #}
+                {% render_field form.username class="form-control" placeholder="Username" %}
+
+            </div>
+            </div>
+            <div class="field">
+            <div class="ui left icon input">
+                <i class="lock icon"></i>
+                {# <input type="password" name="password" placeholder="Password"> #}
+                {% render_field form.password class="form-control" placeholder="Password" %}
+
+            </div>
+            </div>
+            <button type="submit" class="ui fluid large teal submit button" id="login--submit">
+                Login
+            </button>
+        </div>
+
+        <div class="ui error message"></div>
+
+        </form>
+
+        <div class="ui message">
+            New to us? <a href="{% url 'staff signup' %}">Sign Up</a>
+        </div>
+    </div>
+
+
+</div>
+
+{% endblock %}

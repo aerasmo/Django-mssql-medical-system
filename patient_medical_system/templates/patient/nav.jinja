@@ -1,0 +1,18 @@
+{% load static %}
+
+
+<div class="ui menu">
+  <img src="#" alt="" class="logo">
+  <a href="{% url 'home' %}" class="item"> 
+    HOME 
+  </a>
+  <a href="{% url 'add appointment' %}" class="item"> 
+    ADD APPOINTMENT
+  </a>
+  <div class="right menu"> 
+    <a href="{% url 'logout'%}" class="item"> 
+      LOGOUT
+    </a>
+
+  </div>
+</div>
