@@ -1,9 +1,200 @@
 {% extends "base.jinja" %}
 {% load static %}
 {% load widget_tweaks %}
-{% block navbar %} {% include "staff/nav.jinja" %} {% endblock%}
+{% block navbar %} {% include "staff/nav.jinja" %} {% endblock %}
 {% block content %}
 
+<form class="ui two column grid segment" method="POST">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    <div class="ui row" id="discharge-header">
+            <h2> Pre-Operative Medical Evaluation </h1>
+            <h3> Admit Date: <span>{{discharge.admit_date}}</span> </h3>
+            <h3> Appointment Type: <span>{{discharge.appointment.appointment_type}}</span></h3>
+    </div>
+    <div class="ui row">
+        <div class="ten wide column">
+            <div class="ui segment">
+                <h2> Patient Medical Information </h2>
+                <div class="ui stacked segment form">
+                    {# <div class="ui divider"></div> #}
+                    <div class="fields">
+                        <div class="ten wide field">
+                            <label for=""> First Name </label>
+                            <div class="ui input">
+                                <input type="text" name="fname" disabled value="{{discharge.patient.user.first_name}}">
+                            </div>
+                        </div>
+                        <div class="ten wide field">
+                            <label for=""> Last Name </label>
+                            <div class="ui input">
+                                <input type="text" name="lname" disabled value="{{discharge.patient.user.last_name}}">
+                            </div>
+                        </div>
+                        <div class="six wide field">
+                            <label for=""> Age </label>
+                            <div class="ui input">
+                                <input type="text" name="aname" disabled value="{{discharge.patient.age}}">
+                            </div>
+                        </div>
 
 
+                    </div>
+                    <div class="fields">
+                        <div class="eight wide field">
+                            <label for=""> Weight (KG) </label>
+                            <div class="ui input">
+                                {% render_field form.weight%}
+
+                            </div>
+                        </div>
+                        <div class="eight wide field">
+                            <label for=""> Height (CM) </label>
+                            <div class="ui input">
+                                {% render_field form.height%}
+
+                            </div>
+                        </div>
+                        <div class="four wide field">
+                            <label for=""> Blood Type </label>
+                            <div class="ui input">
+                                {% render_field form.blood_type%}
+
+                            </div>
+                        </div>
+                        <div class="six wide field">
+                            <label for=""> Sex </label>
+                            <div class="ui input">
+                                {% render_field form.sex%}
+                                
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="fields">
+                        <div class="ten wide field">
+                            <label for="">Vision Level </label>
+
+                                {% render_field form.vision_level %}
+
+                        </div>
+                        <div class="ten wide field">
+                                <label for=""> Eye Condition</label>
+
+                                {% render_field form.eye_condition%}
+
+                        </div>
+                        <div class="four wide field">
+                                <label for=""> Has Glasses</label>
+   
+                                {% render_field form.has_glasses %}
+
+                        </div>
+                    </div>
+
+
+                    <div class="field">
+                        <label>Notes</label>
+                        {% render_field form.notes rows="5"%}
+
+                    </div>
+
+
+                <div class="ui error message"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="six wide column">
+            <div class="ui segment">
+                <h2> Patient Fees </h2>
+                <div class="ui stacked segment form">
+                    {# <div class="ui divider"></div> #}
+
+                    <div class="field">
+                        <label for=""> Consultation Fee </label>
+                        <div class="ui input">
+                            {# <input id="consultation-fee" type="number" name="consultation-fee" step="0.01" placeholder="0.00" #}
+                                {# value="0.00" #}
+                                {# onchange="change_total_fees()" #}
+                                {# oninput="change_total_fees()" #}
+                            {# > #}
+                            {% render_field discharge_form.consultation_fee class="fees" %}
+
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for=""> Room Fee </label>
+                        <div class="ui input">
+                            {# <input id="room-fee" type="number" name="room-fee" step="0.01" placeholder="0.00" #}
+                                {# value="0.00" #}
+                                {# onchange="change_total_fees()" #}
+                                {# oninput="change_total_fees()" #}
+                            {# > #}
+                            {% render_field discharge_form.room_fee class="fees" %}
+
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for=""> Operation Fees </label>
+                        <div class="ui input">
+                            {# <input id="medicine-fees" type="number" name="medicine-fees" step="0.01" placeholder="0.00" #}
+                                {# value="0.00" #}
+                                {# onchange="change_total_fees()" #}
+                                {# oninput="change_total_fees()" #}
+                            {# > #}
+                            {% render_field discharge_form.medicine_fees class="fees"%}
+
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for=""> Other Fees </label>
+                        <div class="ui input">
+                            {# <input id="other-fees" type="number" name="other-fees" step="0.01" placeholder="0.00" #}
+                                {# value="0.00" #}
+                                {# onchange="change_total_fees()" #}
+                                {# oninput="change_total_fees()" #}
+                            {# > #}
+                            {% render_field discharge_form.other_fees class="fees"%}
+
+
+                        </div>
+                    </div>
+
+                    <div class="ui divider"></div>
+
+                    <div class="field">
+                        <label for=""> Total Fees </label>
+                        <div class="ui input">
+                            <input id="total-fees" type="text" name="total-fees" step="0.01" placeholder="0.00" disabled>
+                            
+                        </div>
+                    </div>
+
+
+                <div class="ui error message"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui row">
+        <div class="right floated right aligned column">
+        <input type="submit" value="Save" name="submit" class="ui medium teal submit button">
+        <input type="submit" value="Discharge" name="submit" class="ui medium primary submit button">
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        change_total_fees()
+        document.querySelectorAll('.fees').forEach(item => {
+            item.addEventListener('input', event => {
+                change_total_fees()
+            })
+        })
+    </script>
 {% endblock %}

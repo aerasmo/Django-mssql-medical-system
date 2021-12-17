@@ -30,7 +30,29 @@ class AppointmentForm(forms.ModelForm):
     class Meta:
         model = models.Appointment
         fields = [
-            # 'appointment_date', 
-            # 'appointment_time',
             'appointment_type'
+        ]
+class MedicalInformationForm(forms.ModelForm):
+    class Meta:
+        model = models.Patient
+        fields = [
+            'weight', 
+            'height', 
+            'sex', 
+            'has_glasses', 
+            'blood_type', 
+            'vision_level', 
+            'eye_condition', 
+            'has_glasses',
+            'notes'
+        ]
+
+class DischargeForm(forms.ModelForm):
+    class Meta:
+        model = models.Discharge
+        fields = [
+            'consultation_fee',
+            'room_fee',
+            'medicine_fees',
+            'other_fees'
         ]

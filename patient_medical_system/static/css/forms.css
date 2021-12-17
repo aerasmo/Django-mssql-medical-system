@@ -13,4 +13,19 @@
 #signup {
   margin-top: 6rem;
 }
+
+#discharge-header {
+  margin: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+#discharge-header h1, #discharge-header h2, #discharge-header h3 {
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0;
+}
+
+tfoot th {
+  font-weight: bolder;
+}
 /*# sourceMappingURL=forms.css.map */

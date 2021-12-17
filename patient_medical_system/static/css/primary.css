@@ -2,4 +2,27 @@
   width: 8rem;
   margin: 0.25rem;
 }
+
+#invoice-header {
+  padding: 2rem 1rem 1rem 1rem;
+}
+
+#invoice-header h2 {
+  margin-left: 1rem;
+}
+
+.main {
+  padding: 1rem 1.5rem;
+}
+
+.main h1 {
+  margin-bottom: 1.5rem !important;
+}
+
+.logo {
+  width: 35px;
+  height: 35px;
+  padding: 4px 5px;
+  margin: 0 5px;
+}
 /*# sourceMappingURL=primary.css.map */

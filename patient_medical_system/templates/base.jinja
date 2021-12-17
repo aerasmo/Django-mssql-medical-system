@@ -10,6 +10,10 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/semantic.css' %}"> 
 	<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/primary.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'front-updated/Home.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'UI-Icon-master/icon.css' %}">
+
+	<link rel="icon" href="{% static 'icons/foil-green.png' %}">
 	{% block stylesheets %}
 	{% endblock stylesheets %}
 
@@ -24,8 +28,15 @@
 	<div class="ui container">
 	{# navbar #}
 	{% block navbar %} 
-		{% include "nav.jinja" %} 
+		{% if account == "PATIENT" %}
+			{% include "patient/nav.jinja" %} 
+		{% elif account == "STAFF" %}
+			{% include "staff/nav.jinja" %} 
+		{% else %}
+			{% include "nav.jinja" %} 
+		{% endif %}
 	{% endblock navbar %}
+
 
 	{# content #}
 	{% block content %}{% endblock content %}
@@ -36,9 +47,11 @@
 	{% endblock footer %}
 	
 	{# script #}
+	<script type="text/javascript" src="/static/js/semantic.js?"> </script>
 	<script type="text/javascript" src="/static/js/main.js?{% now 'U' %}"> </script>
-	{# <script type="text/javascript" src="/static/js/semantic.js?{% now 'U' %}"> </script> #}
 
 	</div>
+	{% block script %}
+	{% endblock script %}
 </body>
 </html>

@@ -1,0 +1,73 @@
+{% extends "base.jinja" %}
+{% load static %}
+{% block navbar %} {% include "patient/nav.jinja" %} {% endblock%}
+{% block content %}
+
+<div class="ui stacked segment">
+    <div class="ui grid two column wide" id="invoice-header">
+        <div class="row">
+            <h2> Philippine Optimum General Hospital</h2>
+        </div>
+        <div class="row">
+            <div class="column">
+                <p> Patient Name: {{discharge.patient.user.first_name}} {{discharge.patient.user.last_name}}</p>
+                <p> Age: {{discharge.patient.age}}</p>
+                <p> Mobile: {{discharge.patient.phone_number}}</p>
+            </div>
+            <div class="column right aligned">
+                <p> Appointment Tyoe: {{discharge.appointment.appointment_type}}</p>
+                <p> Admit Date: {{discharge.admit_date}}</p>
+                <p> Release Date: {{discharge.discharge_date}}</p>            
+            </div>
+        </div>
+
+        <div class="ui divider"></div>
+    </div>
+    <table class="ui celled teal table">
+        <thead>
+            <tr>
+                <th> Variable Fee</th>
+                <th class="right aligned"> Price </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td> Consultation Fee</td>
+                <td class="right aligned"> {{discharge.consultation_fee}}</td>
+            </tr>
+            <tr>
+                <td> Room Fee</td>
+                <td class="right aligned"> {{discharge.room_fee}}</td>
+            </tr>
+            <tr>
+                <td> Medicine Fees</td>
+                <td class="right aligned"> {{discharge.medicine_fees}}</td>
+            </tr>
+            <tr>
+                <td> Other Fees</td>
+                <td class="right aligned"> {{discharge.other_fees}}</td>
+            </tr>
+        </tbody>
+        <tfoot class="teal">
+            <tr>
+                <th> TotalFees</th>
+                <th class="right aligned"> {{discharge.total_fees}}</th>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="ui grid">
+        <div class="ui row">
+            <div class="right floated right aligned column">
+            <form action="/download_pdf{{discharge.id}}">
+            {# <form action="/pdf{{discharge.id}}"> #}
+                <input type="submit" value="Download PDF" name="submit" class="ui medium teal submit button">
+            </form>
+
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+{% endblock %}

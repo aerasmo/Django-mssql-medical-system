@@ -1,0 +1,114 @@
+{% extends "base.jinja" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block navbar %} {% include "patient/nav.jinja" %} {% endblock %}
+{% block content %}
+
+<div class="ui warning message">
+    <div class="header">
+        You can not Change Patient Medical Information
+    </div>
+    <p> Patient Form Can only be Modified when He/She is getting Discharged</p>
+</div>
+<form class="ui grid">
+
+    <div class="ui row">
+        <div class="column">
+            <div class="ui segment">
+                <h2> Patient Medical Information </h2>
+                <div class="ui stacked segment form">
+                    {# <div class="ui divider"></div> #}
+                    <div class="fields">
+                        <div class="ten wide field">
+                            <label for=""> First Name </label>
+                            <div class="ui input">
+                                <input type="text" name="fname" disabled value="{{patient.user.first_name}}">
+                            </div>
+                        </div>
+                        <div class="ten wide field">
+                            <label for=""> Last Name </label>
+                            <div class="ui input">
+                                <input type="text" name="lname" disabled value="{{patient.user.last_name}}">
+                            </div>
+                        </div>
+                        <div class="six wide field">
+                            <label for=""> Age </label>
+                            <div class="ui input">
+                                <input type="text" name="age" disabled value="{{patient.age}}">
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="fields">
+                        <div class="eight wide field">
+                            <label for=""> Weight (KG) </label>
+                            <div class="ui input">
+                                <input type="text" name="weight" disabled value="{{patient.weight}}">
+
+
+                            </div>
+                        </div>
+                        <div class="eight wide field">
+                            <label for=""> Height (CM) </label>
+                            <div class="ui input">
+                                <input type="text" name="height" disabled value="{{patient.height}}">
+                            </div>
+                        </div>
+                        <div class="four wide field">
+                            <label for=""> Blood Type </label>
+                            <div class="ui input">
+                                <input type="text" name="blood_type" disabled value="{{patient.blood_type}}">
+
+                            </div>
+                        </div>
+                        <div class="six wide field">
+                            <label for=""> Sex </label>
+                            <div class="ui input">
+                                <input type="text" name="blood_type" disabled value="{{patient.sex}}">
+
+                                
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="fields">
+                        <div class="ten wide field">
+                            <label for="">Vision Level </label>
+
+                                <input type="text" name="vision_level" disabled value="{{patient.vision_level}}">
+
+                        </div>
+                        <div class="ten wide field">
+                                <label for=""> Eye Condition</label>
+
+                                <input type="text" name="eye_condition" disabled value="{{patient.eye_condition}}">
+
+                        </div>
+                        <div class="four wide field">
+                                <label for=""> Has Glasses</label>
+                                <input type="checkbox" name="eye_condition" disabled checked="{{patient.has_glasses}}">
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="field">
+                        <label>Notes</label>
+                        <textarea rows="5" disabled>
+                            {{patient.notes}}
+                        </textarea>
+                    </div>
+
+
+                <div class="ui error message"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+{% endblock %}

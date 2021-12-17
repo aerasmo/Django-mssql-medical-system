@@ -1,6 +1,5 @@
 # switch for login and logged out
 def logged_in_switch_view(logged_in_view, logged_out_view):
-
     def inner_view(request, *args, **kwargs):
         if request.user.is_authenticated:
             return logged_in_view(request, *args, **kwargs)
@@ -10,6 +9,21 @@ def logged_in_switch_view(logged_in_view, logged_out_view):
 
 
 def user_switch_view(patient_view, staff_view):
+    def inner_view(request, *args, **kwargs):
+        if request.user.is_authenticated:
+            if request.session.get("type") == "PATIENT":
+                return patient_view(request, *args, **kwargs)
+            elif request.session.get("type") == "STAFF":
+                return staff_view(request, *args, **kwargs)
+            else:
+                raise Exception("User type is undefined")
+        else:
+            raise Exception("Please LOGIN")
+
+
+    return inner_view
+
+def triple_switch_view(patient_view, staff_view, general_view):
 
     def inner_view(request, *args, **kwargs):
         if request.session.get("type") == "PATIENT":
@@ -17,6 +31,6 @@ def user_switch_view(patient_view, staff_view):
         elif request.session.get("type") == "STAFF":
             return staff_view(request, *args, **kwargs)
         else:
-            raise Exception("User type is undefined")
+            raise general_view(request, *args, **kwargs)
 
     return inner_view

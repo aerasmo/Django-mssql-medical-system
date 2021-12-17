@@ -5,16 +5,30 @@
 {% block navbar %} {% include "patient/nav.jinja" %} {% endblock%}
 {% block content %}
 
-{# {{user.username}} #}
-{# {{user.password}} #}
-{# <h1>{{appointment.id}}</h1> #}
 
-<h2 class="ui header"> Approved Appointments 
-</h2>
-<span class="ui right floated"> Please go to the hospital to get admitted </span>
-<h3 class="sub header"> </h3>
-<div class="ui grid">
+{% if admitted %}
+    <div class="ui success message">
+        <div class="header">
+            You are currently admitted
+        </div>
+        <p> Please wait to get discharged from the hospital</p>
+    </div>
+{% else %}
+    <div class="ui warning message">
+        <div class="header">
+            You are not admitted. Please request for appointment and wait for approval.
+        </div>
+        <p> Please wait to get discharged from the hospital</p>
+    </div>
+{% endif %}
+<div class="main">
+
 {% if approved %}
+    <h2 class="ui header"> Approved Appointments 
+    </h2>
+    <span class="ui right floated"> Please go to the hospital to get admitted </span>
+    <h3 class="sub header"> </h3>
+    <div class="ui grid">
     {% for appointment in approved %}
     <div class="four wide column">
         <div class="ui card">
@@ -54,13 +68,13 @@
     </div>
     {% endfor %}
 {% endif %}
-</div>
+
 <div class="ui divider"></div>
-<h2 class="header"> Pending Appointments </h2>
-<span> Wait to get approved by the hospital staff </span>
-<h3 class="sub header"></h3>
-<div class="ui grid">
 {% if pending %}
+    <h2 class="header"> Pending Appointments </h2>
+    <span> Wait for medical staff approval </span>
+    <h3 class="sub header"></h3>
+    <div class="ui grid">
     {% for appointment in pending %}
     <div class="four wide column">
         <div class="ui card">
@@ -100,6 +114,7 @@
     </div>
     {% endfor %}
 {% endif %}
+</div>
 </div>
 
 

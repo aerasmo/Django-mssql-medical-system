@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.fields import DateField
+from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 sex = [
     ('Male', 'Male'),
@@ -61,9 +62,9 @@ class Patient(models.Model):
     sex = models.CharField(max_length=7, choices=sex)
     weight = models.FloatField(default=0)
     height = models.FloatField(default=0)
-    blood_type = models.CharField(max_length=3, choices=blood_types, default='O+')
-    vision_level = models.CharField(max_length=30, choices=vision_levels, default='unclassified')
-    eye_condition = models.CharField(max_length=30, choices=eye_conditions, default='None')
+    blood_type = models.CharField(max_length=3, choices=blood_types, null=True, blank=True)
+    vision_level = models.CharField(max_length=30, choices=vision_levels, null=True, blank=True)
+    eye_condition = models.CharField(max_length=50, default='None')
     has_glasses = models.BooleanField(default=False)
     notes = models.TextField()
 
@@ -123,10 +124,10 @@ class Discharge(models.Model):
     admit_date = models.DateTimeField(auto_now_add=True)
     discharge_date = models.DateTimeField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
-    consultation_fee = models.FloatField(default=0)
-    room_fee = models.FloatField(default=0)
-    medicine_fees = models.FloatField(default=0)
-    other_fees = models.FloatField(default=0)
+    consultation_fee = models.FloatField(default=0, validators=[MinValueValidator(0.0)])
+    room_fee = models.FloatField(default=0, validators=[MinValueValidator(0.0)])
+    medicine_fees = models.FloatField(default=0, validators=[MinValueValidator(0.0)])
+    other_fees = models.FloatField(default=0, validators=[MinValueValidator(0.0)])
 
     @property
     def total_fees(self):

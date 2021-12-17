@@ -1,0 +1,39 @@
+{% extends "base.jinja" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block navbar %} {% include "patient/nav.jinja" %} {% endblock%}
+{% block content %}
+
+<div class="main">
+<h1 class="ui header"> History </h1>
+<table class="ui celled striped table">
+    <thead>
+        <tr>
+            <th> Appointment Type</th>
+            <th> Admit Date</th>
+            <th> Discharge Date</th>
+            <th> Total Fees</th>
+            <th> ACTION/S</th>
+        </tr>
+    </thead>
+
+{% for discharge in discharges %}
+    <tbody>
+    <tr>
+        <td> {{discharge.appointment.appointment_type}}</td>
+        <td> {{discharge.admit_date}}</td>
+        <td> {{discharge.discharge_date}}</td>
+        <td> {{discharge.total_fees}}</td>
+        <td class="action-column">
+            <form action="/invoice/{{discharge.appointment.id}}"method="GET">
+                <button class="ui tiny teal button action-button" type="submit"> INVOICE </button>
+            </form>
+        </td>
+
+    </tr>
+    </tbody>
+
+{% endfor %}
+</table>
+</div>
+{% endblock %}

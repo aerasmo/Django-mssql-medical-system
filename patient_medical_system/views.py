@@ -3,12 +3,13 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.generic import View
 from django.template.loader import get_template
 from .utils import render_to_pdf 
 from . import forms,models
 from django.db.models import Q
+import datetime
 
 # --- TESTING ---
 def test(request):
@@ -19,9 +20,6 @@ def test(request):
 # test/
 def is_patient(user):
     return user.groups.filter(name='PATIENT').exists()
-
-def is_admin(user):
-    return user.groups.filter(name='ADMIN').exists()
 
 def is_staff(user):
     return user.groups.filter(name='STAFF').exists()
@@ -38,11 +36,12 @@ def handle_user(request):
 
 # /
 def home(request):
-    # print("BRUH")
-    # return render(request, 'front-updated/index.html')
-    # if request.user.is_authenticated:
-        # return redirect('handle user')
-    return render(request, 'home.jinja', {'account': None})
+    ctx = {'account': None}
+    if is_staff(request.user):
+        ctx['account'] = "STAFF"
+    if is_patient(request.user):
+        ctx['account'] = "PATIENT"
+    return render(request, 'home.jinja', context=ctx)
 
 # /user_home
 def user_home(request):
@@ -141,6 +140,9 @@ def patient_dashboard(request):
         # query = models.Appointment.objects.filter(pk=user, status='Pending')
     pending = models.Appointment.objects.filter(patient__user_id=user, status="Pending")
     approved = models.Appointment.objects.filter(patient__user_id=user, status="Approved")
+    admitted = models.Appointment.objects.filter(patient__user_id=user, status="Ongoing").exists()
+    if admitted:
+        ctx["admitted"] = True
         # for appointment in query:
 
     
@@ -170,6 +172,7 @@ def staff_dashboard(request):
 
 # /add_appointment
 @login_required
+@user_passes_test(is_patient)
 def add_appointment(request):
     appointment_form = forms.AppointmentForm()
     if request.method == "POST":
@@ -210,7 +213,7 @@ def cancel_appointment(request, id):
         apnt = models.Appointment.objects.get(id=id)
         user = request.user.id
         # check if the user who created appointment is the one who will cancel
-        if apnt.user.id == user and apnt.status == "Pending":
+        if apnt.patient.user.id == user and apnt.status == "Pending":
             apnt.status = "Cancelled"
             apnt.save()
         return redirect("dashboard")
@@ -247,6 +250,7 @@ def admit_appointment(request, id):
 
             # save discharge date
             patient = models.Patient.objects.get(user__id=apnt.patient.user.id)
+
             discharge = models.Discharge(patient=patient, appointment=apnt)
             discharge.save()
 
@@ -262,8 +266,24 @@ def discharge_patient(request, discharge_id):
     ctx = {'discharge': discharge}
     if request.session.get("type") == "STAFF" and discharge.appointment.status == "Ongoing":
         if request.method == "POST":
-            # if request.session.get("type") == "STAFF" and apnt.status == "Approved":
-            pass
+                patient = forms.MedicalInformationForm(request.POST, instance=discharge.patient)
+                discharge_fees = forms.DischargeForm(request.POST, instance=discharge)
+                if patient.is_valid():
+                    patient.save()
+                if discharge_fees.is_valid():
+                    discharge_fees.save()
+                if request.POST.get("submit") == "Save":
+                    print("saving")
+                if request.POST.get("submit") == "Discharge":
+                    print("discharged")
+                    discharge = models.Discharge.objects.get(id=discharge_id)
+                    discharge.discharge_date = datetime.datetime.now()
+                    discharge.save()
+                    appointment = models.Appointment.objects.get(id=discharge.appointment.id)
+                    appointment.status = "Discharged"
+                    appointment.save()
+                    
+                    
                 # save discharge date
                 # patient = models.Patient.objects.get(user__id=apnt.patient.user.id)
                 # discharge = models.Discharge(patient=patient, appointment=apnt)
@@ -271,56 +291,101 @@ def discharge_patient(request, discharge_id):
 
                 # apnt.status = "Ongoing"
                 # apnt.save()
+                return redirect("admitted")
             # return redirect("dashboard")
         else: 
-            return render(request, "/staff/discharge.jinja", context = ctx)
+            medical_form = forms.MedicalInformationForm(instance=discharge.patient)
+            discharge_form = forms.DischargeForm(instance=discharge)
+            ctx['form'] = medical_form
+            ctx['discharge_form'] = discharge_form
+
+            return render(request, "staff/discharge.jinja", context = ctx)
     else:
         return redirect("admitted")
 # /appointments
 def appointments(request):
-    # account = None
-    # if (request.cookie(type) == 'user') {
-    #     account = 'user'
-    #     get appointments for user
-    # } else {
-    #     account = 'staff'
-    #     get appointments for staf
-    # }
+
     return render(request, 'appointments.html', {'account': 'user'})
 
-# /patients
+# /history
 @login_required
-def patients(request):
-    if request.session.get("type") == "STAFF":
-        patients = models.Patient.objects.filter(user__groups__name__in=['PATIENT'])
+@user_passes_test(is_patient)
+def history(request):
+    discharges = models.Discharge.objects.filter(patient__user_id=request.user.id, appointment__status="Discharged")
+    ctx = {'discharges': discharges}
 
-        ctx = {'patients': patients}
-        return render(request, 'staff/patients.jinja', context = ctx)
-    else:
-        return redirect("dashboard")
+    return render(request, 'patient/history.jinja',context = ctx)
+
+@login_required
+@user_passes_test(is_staff)
+def patients(request):
+    patients = models.Patient.objects.filter(user__groups__name__in=['PATIENT'])
+    ctx = {'patients': patients}
+    return render(request, 'staff/patients.jinja', context = ctx)
+@login_required
+def patient(request, id):
+    patient = models.Patient.objects.get(id=id)
+    ctx = {'patient': patient} 
+    return render(request, "patient.jinja", context =ctx)
+
+@login_required
+@user_passes_test(is_patient)
+def profile(request):
+    patient = models.Patient.objects.get(id=request.user.id)
+    ctx = {'patient': patient}
+    return render(request, "patient/profile.jinja", context=ctx)
+
 
 # /admitted_patients
 @login_required
+@user_passes_test(is_staff)
 def admitted(request):
     # discharge = models.Appointment.objects.filter(patient__user__groups__name__in=['PATIENT'], status="Ongoing")
-    if request.session.get("type") == "STAFF":
-        discharges = models.Discharge.objects.all()
-        ctx = {'discharges': discharges}
-        return render(request, 'staff/admitted_patients.jinja', context = ctx)
-    else:
-        return redirect("dashboard")
+    discharges = models.Discharge.objects.filter(appointment__status__in=['Ongoing'])
+    ctx = {'discharges': discharges}
+    return render(request, 'staff/admitted_patients.jinja', context = ctx)
+
 # /invoice/
-def user_invoice(request):
-    return render(request, 'invoice.html')
+@login_required
+def invoice(request, id):
+    # can view any invoice
+    if request.session.get("type") == "STAFF":
+        discharge = models.Discharge.objects.get(appointment_id=id)
+        ctx = {'discharge': discharge}
+        return render(request, 'staff/invoice.jinja', context=ctx)
+        
+    # limited invoice
+    elif request.session.get("type") == "PATIENT":
+        discharge = models.Discharge.objects.get(appointment_id=id, patient__user__id=request.user.id)
+        if discharge:
+            ctx = {'discharge': discharge}
+            return render(request, 'patient/invoice.jinja', context=ctx)
+    return redirect("home")
+    
 
 class GeneratePdf(View):
     def get(self, request, *args, **kwargs):
         #getting the template
-        pdf = render_to_pdf('invoice.html')
+        # pdf = render_to_pdf('patient/invoice.jinja')
+        pdf = render_to_pdf('invoice.html', context_dict={'name': 'patrick'})
             
         #rendering the template
         return HttpResponse(pdf, content_type='application/pdf')
 
+def view_pdf(request, id):
+    pdf = render_to_pdf('invoice.html')
+            
+    return HttpResponse(pdf, content_type='application/pdf')
+
+
+# class GeneratePdf2(View, id):
+#     def get(self, request, *args, **kwargs):
+#         #getting the template
+#         # pdf = render_to_pdf('patient/invoice.jinja')
+#         pdf = render_to_pdf('invoice.html')
+            
+#         #rendering the template
+#         return HttpResponse(pdf, content_type='application/pdf')
 # --- STAFF ---
 # # /staff_home
 # def staff_home(request):

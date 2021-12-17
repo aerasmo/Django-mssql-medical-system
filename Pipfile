@@ -8,6 +8,7 @@ django = "*"
 mssql-django = "*"
 django-widget-tweaks = "*"
 xhtml2pdf = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

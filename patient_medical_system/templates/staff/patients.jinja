@@ -5,7 +5,15 @@
 {% block navbar %} {% include "staff/nav.jinja" %} {% endblock%}
 {% block content %}
 
-<h1 class="ui header"> Patients </h1>
+<div class="main">
+<div class="ui two column grid">
+    <div class="column">
+        <h1> Patients</h1>
+    </div>
+    <div class="ui input column right floated right aligned">
+        <input type="text" placeholder="Search...">
+    </div>
+</div>
 <table class="ui celled striped table">
     <thead>
         <tr>
@@ -24,14 +32,14 @@
     <tbody>
     <tr>
         <td> {{patient.user.first_name}} {{patient.user.last_name}}</td>
-        <td> {{user.email}}</td>
-        <td> +{{patient.phone_number}}</td>
+        <td> {{patient.user.email}}</td>
+        <td> {{patient.phone_number}}</td>
         <td> {{patient.age}}</td>
         <td> {{patient.sex}}</td>
         <td> {{patient.vision_classification}}</td>
         <td> {{patient.eye_condition}}</td>
         <td class="action-column">
-            <form action="/patient/{{patient.user.id}}"method="POST">
+            <form action="/patient/{{patient.id}}"method="POST">
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                 <button class="ui teal tiny button action-button" type="submit"> View </button>
             </form>
@@ -42,5 +50,6 @@
 
 {% endfor %}
 </table>
+</div>
 
 {% endblock %}

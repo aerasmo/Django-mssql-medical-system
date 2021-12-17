@@ -2,14 +2,23 @@
 
 
 <div class="ui menu">
-  <img src="#" alt="" class="logo">
+  <img src="{% static 'icons/foil-green-drips.png' %}" class="logo">
   <a href="{% url 'home' %}" class="item"> 
-    HOME 
+    HOME
+  </a>
+  <a href="{% url 'dashboard' %}" class="item"> 
+    DASHBOARD
   </a>
   <a href="{% url 'add appointment' %}" class="item"> 
     ADD APPOINTMENT
   </a>
+  <a href="{% url 'history' %}" class="item"> 
+    HISTORY
+  </a>
   <div class="right menu"> 
+    <a href="{% url 'profile' %}" class="item"> 
+      PROFILE
+    </a>
     <a href="{% url 'logout'%}" class="item"> 
       LOGOUT
     </a>
