@@ -5,8 +5,15 @@
 {% block content %}
 
 <div class="main">
-<h1 class="ui header"> History </h1>
-<table class="ui celled striped table">
+<div class="ui two column grid">
+    <div class="column">
+        <h1> History </h1>
+    </div>
+    <div class="ui input column right floated right aligned">
+        <input type="text" placeholder="Search..." id="search">
+    </div>
+</div>
+<table class="ui celled striped table" id="search-table">
     <thead>
         <tr>
             <th> Appointment Type</th>
@@ -36,4 +43,13 @@
 {% endfor %}
 </table>
 </div>
+{% endblock %}
+{% block script %}
+<script>
+    console.log("log")
+    document.getElementById("search").addEventListener('input', event => {
+        searchTable("search-table")
+    })
+    searchTable("search-table")
+    </script>
 {% endblock %}

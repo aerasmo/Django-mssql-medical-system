@@ -145,12 +145,6 @@ def patient_dashboard(request):
         ctx["admitted"] = True
         # for appointment in query:
 
-    
-    # assert len(query) > 1:
-        # print("THIS IS WRONG")
-    # else:
-    # if len(query) == 1:
-        # appointment = query[0]
     ctx['pending'] = pending
     ctx['approved'] = approved
 
@@ -163,8 +157,7 @@ def staff_dashboard(request):
     print(user_type)
     print(request.user.id)
     user = request.user.id
-    # query = models.Appointment.objects.filter(pk=user, status='Pending')
-    # query = models.Appointment.objects.all().exclude(status__in=("Cancelled", "Rejected"))
+
     query = models.Appointment.objects.all()
         # for appointment in query:
     ctx['appointments'] = query
@@ -283,16 +276,7 @@ def discharge_patient(request, discharge_id):
                     appointment.status = "Discharged"
                     appointment.save()
                     
-                    
-                # save discharge date
-                # patient = models.Patient.objects.get(user__id=apnt.patient.user.id)
-                # discharge = models.Discharge(patient=patient, appointment=apnt)
-                # discharge.save()
-
-                # apnt.status = "Ongoing"
-                # apnt.save()
                 return redirect("admitted")
-            # return redirect("dashboard")
         else: 
             medical_form = forms.MedicalInformationForm(instance=discharge.patient)
             discharge_form = forms.DischargeForm(instance=discharge)
@@ -331,7 +315,7 @@ def patient(request, id):
 @login_required
 @user_passes_test(is_patient)
 def profile(request):
-    patient = models.Patient.objects.get(id=request.user.id)
+    patient = models.Patient.objects.get(user__id=request.user.id)
     ctx = {'patient': patient}
     return render(request, "patient/profile.jinja", context=ctx)
 
@@ -365,33 +349,11 @@ def invoice(request, id):
 
 class GeneratePdf(View):
     def get(self, request, *args, **kwargs):
-        #getting the template
-        # pdf = render_to_pdf('patient/invoice.jinja')
         pdf = render_to_pdf('invoice.html', context_dict={'name': 'patrick'})
-            
-        #rendering the template
+
         return HttpResponse(pdf, content_type='application/pdf')
 
-def view_pdf(request, id):
-    pdf = render_to_pdf('invoice.html')
-            
-    return HttpResponse(pdf, content_type='application/pdf')
-
-
-# class GeneratePdf2(View, id):
-#     def get(self, request, *args, **kwargs):
-#         #getting the template
-#         # pdf = render_to_pdf('patient/invoice.jinja')
-#         pdf = render_to_pdf('invoice.html')
-            
-#         #rendering the template
-#         return HttpResponse(pdf, content_type='application/pdf')
-# --- STAFF ---
-# # /staff_home
-# def staff_home(request):
-#     return render(request, 'staff_home.html', {'account': 'staff'})
-
-# # /staff_login
-# def staff_login(request):
-#     return render(request, 'login.html', {'account': 'staff'})
-
+@login_required
+def download_pdf(request, id):
+    discharge = models.Discharge.objects.get(id=id)
+    return render_to_pdf('invoice.jinja', context_dict={'discharge': discharge})

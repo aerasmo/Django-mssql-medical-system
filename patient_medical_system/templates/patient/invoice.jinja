@@ -15,7 +15,7 @@
                 <p> Mobile: {{discharge.patient.phone_number}}</p>
             </div>
             <div class="column right aligned">
-                <p> Appointment Tyoe: {{discharge.appointment.appointment_type}}</p>
+                <p> Appointment Type: {{discharge.appointment.appointment_type}}</p>
                 <p> Admit Date: {{discharge.admit_date}}</p>
                 <p> Release Date: {{discharge.discharge_date}}</p>            
             </div>
@@ -59,7 +59,7 @@
     <div class="ui grid">
         <div class="ui row">
             <div class="right floated right aligned column">
-            <form action="/download_pdf{{discharge.id}}">
+            <form action="/download_pdf/{{discharge.id}}" method="GET">
             {# <form action="/pdf{{discharge.id}}"> #}
                 <input type="submit" value="Download PDF" name="submit" class="ui medium teal submit button">
             </form>

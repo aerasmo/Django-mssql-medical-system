@@ -11,10 +11,10 @@
         <h1> Patients</h1>
     </div>
     <div class="ui input column right floated right aligned">
-        <input type="text" placeholder="Search...">
+        <input type="text" placeholder="Search..." id="search">
     </div>
 </div>
-<table class="ui celled striped table">
+<table class="ui celled striped table" id="search-table">
     <thead>
         <tr>
             <th> Patient Name</th>
@@ -22,6 +22,7 @@
             <th> Contact No.</th>
             <th> Age</th>
             <th> Sex</th>
+            <th> Vision</th>
             <th> Vision Level</th>
             <th> Eye Condition </th>
             <th> ACTION/S</th>
@@ -36,6 +37,7 @@
         <td> {{patient.phone_number}}</td>
         <td> {{patient.age}}</td>
         <td> {{patient.sex}}</td>
+        <td> {{patient.vision_level}}</td>
         <td> {{patient.vision_classification}}</td>
         <td> {{patient.eye_condition}}</td>
         <td class="action-column">
@@ -52,4 +54,13 @@
 </table>
 </div>
 
+{% endblock %}
+{% block script %}
+<script>
+    console.log("log")
+    document.getElementById("search").addEventListener('input', event => {
+        searchTable("search-table")
+    })
+    searchTable("search-table")
+    </script>
 {% endblock %}

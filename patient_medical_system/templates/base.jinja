@@ -47,11 +47,12 @@
 	{% endblock footer %}
 	
 	{# script #}
-	<script type="text/javascript" src="/static/js/semantic.js?"> </script>
+	{# <script type="text/javascript" src="/static/js/semantic.js?{% now 'U' %}"> </script> #}
+	{# <script type="text/javascript" src="/static/js/jquery-3.6.0.min.js?{% now 'U' %}"> </script> #}
 	<script type="text/javascript" src="/static/js/main.js?{% now 'U' %}"> </script>
 
-	</div>
 	{% block script %}
 	{% endblock script %}
+	</div>
 </body>
 </html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    @page {
+      size: A4;
+      margin: 1cm;
+
+      @frame footer {
+        -pdf-frame-content: footerContent;
+        bottom: 0cm;
+        margin-left: 9cm;
+        margin-right: 9cm;
+        height: 1cm;
+      }
+    }
+    h1 {
+        font-size: 24px;
+    }
+    th {
+        text-align: left;
+    }
+    .fees {
+        margin-top: 30px;
+        border: 1px solid #333;
+        font-size: 15px;
+    }
+    .fees tr {
+        padding: 5px;
+    }
+    .right {
+        text-align: right !important;
+    }
+    .header {
+        font-size: 15px;
+    }
+  </style>
+  <title> Invoice </title>
+</head>
+
+<body>
+
+  <br><br><br>
+  <div class="invoice-box">
+    <h1>Philippine Optimum General Hospital</h1>
+
+    <table cellpadding="0" cellspacing="0">
+ 
+      <tr class="header">
+        <td colspan="2">
+          <table>
+            <tr>
+              <td>
+                Patient Name : {{discharge.patient.user.first_name}} {{discharge.patient.user.last_name}}
+              </td>
+              <td class="right">
+                Appointment Type: {{discharge.appointment.appointment_type}}
+              </td>
+            <tr>
+            
+              <td>
+                Age : {{discharge.patient.age}}
+              </td>
+              <td class="right">
+                Admit Date: {{discharge.admit_date}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Mobile : {{discharge.patient.phone_number}}
+              </td>
+              <td class="right">
+                Discharge Date: {{discharge.discharge_date}}
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+
+
+          <table class="fees">
+            <tr>
+                <th> Variable Fee</th>
+                <th class="right"> Price </th>
+            </tr>
+            <tr>
+                <td> Consultation Fee</td>
+                <td class="right"> {{discharge.consultation_fee}}</td>
+            </tr>
+            <tr>
+                <td> Room Fee</td>
+                <td class="right"> {{discharge.room_fee}}</td>
+            </tr>
+            <tr>
+                <td> Medicine Fees</td>
+                <td class="right"> {{discharge.medicine_fees}}</td>
+            </tr>
+            <tr>
+                <td> Other Fees</td>
+                <td class="right"> {{discharge.other_fees}}</td>
+            </tr>
+            <tr>
+                <th> TotalFees</th>
+                <th class="right"> {{discharge.total_fees}}</th>
+            </tr>
+          </table>
+
+
+    </table>
+  </div>
+</body>
+
+</html>

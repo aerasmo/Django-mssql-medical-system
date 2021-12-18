@@ -11,11 +11,11 @@
         <h1> Appointments </h1>
     </div>
     <div class="ui input column right floated right aligned">
-        <input type="text" placeholder="Search...">
+        <input type="text" placeholder="Search..." id="search">
     </div>
 </div>
 
-<table class="ui celled striped table">
+<table class="ui celled striped table" id="search-table">
     <thead>
         <tr>
             <th> Appointment User</th>
@@ -67,4 +67,13 @@
 </table>
 </div>
 
+{% endblock %}
+{% block script %}
+<script>
+    console.log("log")
+    document.getElementById("search").addEventListener('input', event => {
+        searchTable("search-table")
+    })
+    searchTable("search-table")
+    </script>
 {% endblock %}

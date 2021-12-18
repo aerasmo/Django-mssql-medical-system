@@ -32,6 +32,6 @@ urlpatterns = [
     path('discharge/<int:discharge_id>', views.discharge_patient,  name='discharge'),
 
 	path('pdf/', GeneratePdf.as_view()),
-	# path('pdf/<int:id>', GeneratePdf2.as_view(), name="pdf")
+	path('download_pdf/<int:id>', views.download_pdf, name="pdf")
 
 ]	
