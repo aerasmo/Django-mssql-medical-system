@@ -1,7 +1,4 @@
 # Django-mssql-medical-system
-## Philippine Optimum General Hospital
-
----
 
 # Project Information:
  - Project/System Name: Philippine Optimum General Hospital
