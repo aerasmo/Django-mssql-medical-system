@@ -16,7 +16,26 @@
 	- Back-end: Python-Django, SQLite | MSQL
 - Tools: VScode, Github, Figma
 - Deployment: undecided 
-	
+## Site 
+### Home page
+![image](https://user-images.githubusercontent.com/70811340/175457158-27bd43ca-bcd5-43da-8a5e-32613383f3cb.png)
+### Signup
+![image](https://user-images.githubusercontent.com/70811340/175457193-22533db1-76e8-41ee-a50c-39b61dc0e29e.png)
+### Appointments (user)
+![image](https://user-images.githubusercontent.com/70811340/175457252-c7ba2da8-ceea-44a3-b7ef-4de39325306d.png)
+<img width="496" alt="image" src="https://user-images.githubusercontent.com/70811340/175457229-2d8c6759-0d30-4fb1-aa01-35fd5c5db001.png">
+### Appointments (admin/staff)
+![image](https://user-images.githubusercontent.com/70811340/175457302-8b669a58-26c0-46ad-95f8-db62d85bc960.png)
+![image](https://user-images.githubusercontent.com/70811340/175457316-16e73f64-2731-4672-996d-8c59d1192f43.png)
+
+### Patients (admin)
+![image](https://user-images.githubusercontent.com/70811340/175457362-b258fcd5-d08c-4ddb-854c-a08da0f0d0d9.png)
+![image](https://user-images.githubusercontent.com/70811340/175457353-61612645-a68a-48cd-876a-88b845f140e1.png)
+
+### Patient discharge and invoice
+![image](https://user-images.githubusercontent.com/70811340/175457404-f5a2af33-92e1-4d01-ad64-b9be71256faa.png)
+
+
 ## Timeline
 - Week1 - BrainStorming, Planning, Documentation, Routes, Wireframing
 - Week2 and 3 - Coding
